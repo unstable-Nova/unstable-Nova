@@ -1,0 +1,80 @@
+name: Nova Heartbeat
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-telemetry:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout profile repo
+        uses: actions/checkout@v4
+
+      - name: Update README telemetry
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 - << 'PY'
+          import json
+          import os
+          import re
+          import urllib.request
+          from datetime import datetime, timezone
+
+          req = urllib.request.Request(
+              "https://api.github.com/users/unstable-Nova",
+              headers={
+                  "Accept": "application/vnd.github+json",
+                  "User-Agent": "unstable-Nova-heartbeat",
+                  "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
+              },
+          )
+          with urllib.request.urlopen(req) as resp:
+              user = json.loads(resp.read().decode("utf-8"))
+
+          repos = user.get("public_repos", 0)
+          followers = user.get("followers", 0)
+          now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+
+          block = (
+              "<!-- NOVA_STATUS:START -->\n"
+              f"- **Public Repos:** {repos}\n"
+              f"- **Followers:** {followers}\n"
+              f"- **Last Heartbeat:** {now}\n"
+              "<!-- NOVA_STATUS:END -->"
+          )
+
+          with open("README.md", "r", encoding="utf-8") as f:
+              content = f.read()
+
+          updated = re.sub(
+              r"<!-- NOVA_STATUS:START -->.*?<!-- NOVA_STATUS:END -->",
+              block,
+              content,
+              flags=re.DOTALL,
+          )
+
+          if updated != content:
+              with open("README.md", "w", encoding="utf-8") as f:
+                  f.write(updated)
+              print("README.md updated.")
+          else:
+              print("No changes to README.md.")
+          PY
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "unstable-Nova"
+          git config user.email "ojp773@gmail.com"
+          if ! git diff --quiet README.md; then
+            git add README.md
+            git commit -m "chore: update Nova telemetry heartbeat"
+            git push
+          else
+            echo "Nothing to commit."
+          fi

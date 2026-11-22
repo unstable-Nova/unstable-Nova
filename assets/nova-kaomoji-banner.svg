@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 220" width="900" height="220">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0e1a" />
+      <stop offset="50%" stop-color="#171332" />
+      <stop offset="100%" stop-color="#0d1b2a" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f5d4" />
+      <stop offset="50%" stop-color="#9b5de5" />
+      <stop offset="100%" stop-color="#f15bb5" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f15bb5" stop-opacity="0.35" />
+      <stop offset="60%" stop-color="#9b5de5" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#0b0e1a" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+
+  <rect width="900" height="220" rx="16" fill="url(#bg)" />
+  <circle cx="720" cy="110" r="140" fill="url(#glow)" />
+  <circle cx="160" cy="50" r="90" fill="url(#glow)" />
+
+  <!-- Subtle grid -->
+  <g stroke="#ffffff" stroke-opacity="0.04" stroke-width="1">
+    <line x1="0" y1="55" x2="900" y2="55" />
+    <line x1="0" y1="110" x2="900" y2="110" />
+    <line x1="0" y1="165" x2="900" y2="165" />
+    <line x1="150" y1="0" x2="150" y2="220" />
+    <line x1="300" y1="0" x2="300" y2="220" />
+    <line x1="450" y1="0" x2="450" y2="220" />
+    <line x1="600" y1="0" x2="600" y2="220" />
+    <line x1="750" y1="0" x2="750" y2="220" />
+  </g>
+
+  <!-- Starburst emblem -->
+  <g transform="translate(760, 110)">
+    <polygon points="0,-54 11,-14 50,-22 18,4 46,36 6,18 -14,54 -14,12 -52,6 -16,-12 -32,-48 -4,-18"
+             fill="none" stroke="url(#accent)" stroke-width="2.5" stroke-linejoin="round" />
+    <circle cx="0" cy="0" r="10" fill="#00f5d4" />
+    <circle cx="0" cy="0" r="4" fill="#0b0e1a" />
+  </g>
+
+  <!-- Typography -->
+  <text x="56" y="120" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, sans-serif"
+        font-size="44" font-weight="700" fill="url(#accent)" letter-spacing="1">
+    (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧
+  </text>
+  <rect x="58" y="146" width="220" height="3" rx="1.5" fill="url(#accent)" />
+</svg>
